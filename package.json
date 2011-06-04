@@ -1,0 +1,29 @@
+{
+    "name": "ringo-semver",
+    "version": "0.1.1",
+    "description": "Semantic version parser for RingoJS",
+    "keywords": ["rhino", "ringo", "semantic versioning", "semver", "semantic", "versioning"],
+    "homepage": "https://github.com/grob/ringo-semver",
+    "maintainers": [{
+        "name": "Robert Gaggl",
+        "web": "http://nomatic.org/",
+        "email": "robert@nomatic.org"
+    }],
+    "contributors": [{
+        "name": "Robert Gaggl",
+        "web": "http://nomatic.org/",
+        "email": "robert@nomatic.org"
+    }],
+    "bugs": "http://github.com/grob/ringo-semver/issues",
+    "licences": [{
+        "type": "Apache License Version 2.0",
+        "url": "http://www.apache.org/licenses/"
+    }],
+    "repositories": [{
+        "type": "git",
+        "url": "https://github.com/grob/ringo-semver.git"
+    }],
+    "engine": "rhino",
+    "implements": "Semantic Versioning Specification (http://semver.org)",
+    "main": "./lib/ringo/semver.js"
+}
