@@ -187,5 +187,8 @@ exports.testNegativeSatisfies = function() {
 
 exports.testSort = function() {
     var arr = ["0.1.1", "0.1", "0.1beta2", "1.2", "0.0.1"];
-    assert.deepEqual(arr, ["0.0.1", "0.1beta2", "0.1", "0.1.1", "1.2"]);
+    // ascending
+    assert.deepEqual(semver.sort(arr, 1), ["0.0.1", "0.1beta2", "0.1", "0.1.1", "1.2"]);
+    // descending
+    assert.deepEqual(semver.sort(arr, -1), ["1.2", "0.1.1", "0.1", "0.1beta2", "0.0.1"]);
 };
