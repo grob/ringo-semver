@@ -192,3 +192,8 @@ exports.testSort = function() {
     // descending
     assert.deepEqual(semver.sort(arr, -1), ["1.2", "0.1.1", "0.1", "0.1beta2", "0.0.1"]);
 };
+
+//start the test runner if we're called directly from command line
+if (require.main == module.id) {
+    system.exit(require('test').run(exports));
+}
