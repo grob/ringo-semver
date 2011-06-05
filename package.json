@@ -4,16 +4,11 @@
     "description": "Semantic version parser for RingoJS",
     "keywords": ["rhino", "ringo", "semantic versioning", "semver", "semantic", "versioning"],
     "homepage": "https://github.com/grob/ringo-semver",
-    "maintainers": [{
+    "author": {
         "name": "Robert Gaggl",
         "web": "http://nomatic.org/",
         "email": "robert@nomatic.org"
-    }],
-    "contributors": [{
-        "name": "Robert Gaggl",
-        "web": "http://nomatic.org/",
-        "email": "robert@nomatic.org"
-    }],
+    },
     "bugs": "http://github.com/grob/ringo-semver/issues",
     "licences": [{
         "type": "Apache License Version 2.0",
