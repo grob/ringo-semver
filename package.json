@@ -1,6 +1,6 @@
 {
     "name": "ringo-semver",
-    "version": "0.1.1",
+    "version": "0.1.0",
     "description": "Semantic version parser for RingoJS",
     "keywords": ["rhino", "ringo", "semantic versioning", "semver", "semantic", "versioning"],
     "homepage": "https://github.com/grob/ringo-semver",
