@@ -87,7 +87,11 @@ exports.testSatisfies = function() {
         ["1.0.0", ">=1"],
         ["1.1.1", "<1.2"],
         ["1.1.0", ">=1.1.0beta2"],
-        ["1.1.0", "<1.1.1beta1"]
+        ["1.1.0", "<1.1.1beta1"],
+        ["0.2.0beta2", ">= 0.2.0beta2"],
+        ["0.2.0beta2", "> 0.2.0beta1"],
+        ["0.2.0beta2", "> 0.2.0alpha2"],
+        ["0.2.0beta2", "> 0.2.0beta"]
     ];
     for each (let versions in tests) {
         assert.ok(semver.satisfies(versions[0], versions[1]),
@@ -143,7 +147,7 @@ exports.testCompareEqual = function() {
         ["0.x", "0.0.0"],
         ["x", "0.0.0"],
     ];
-    
+
     for each (let versions in tests) {
         assert.ok(semver.isGreaterOrEqual(versions[0], versions[1]),
                 versions[0] + " is greater or equal than " + versions[1]);
