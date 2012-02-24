@@ -93,9 +93,9 @@ exports.testSatisfies = function() {
         ["0.2.0beta2", "> 0.2.0alpha2"],
         ["0.2.0beta2", "> 0.2.0beta"]
     ];
-    for each (let versions in tests) {
-        assert.ok(semver.satisfies(versions[0], versions[1]),
-                versions[0] + " must satisfy " + versions[1]);
+    for each (let [versionA, versionB] in tests) {
+        assert.ok(semver.satisfies(versionA, versionB),
+                versionA + " must satisfy " + versionB);
     }
     return;
 };
@@ -124,15 +124,15 @@ exports.testCompare = function() {
         ["2.0.0", "v1.2.3"]
     ];
 
-    for each (let versions in tests) {
-      assert.ok(semver.isGreater(versions[0], versions[1]),
-              "isGreater(" + versions[0] + ", " + versions[1] + ") must return true");
-      assert.ok(semver.isLower(versions[1], versions[0]),
-              versions[1] + " must be lower than " + versions[0]);
-      assert.ok(!semver.isGreater(versions[1], versions[0]),
-              versions[1] + " must be not greater than " + versions[0]);
-      assert.ok(!semver.isLower(versions[0], versions[1]),
-              versions[0] + " must be not lower than " + versions[1]);
+    for each (let [versionA, versionB] in tests) {
+      assert.ok(semver.isGreater(versionA, versionB),
+              "isGreater(" + versionA + ", " + versionB + ") must return true");
+      assert.ok(semver.isLower(versionB, versionA),
+              versionB + " must be lower than " + versionA);
+      assert.ok(!semver.isGreater(versionB, versionA),
+              versionB + " must be not greater than " + versionA);
+      assert.ok(!semver.isLower(versionA, versionB),
+              versionA + " must be not lower than " + versionB);
     };
     return;
 };
@@ -145,16 +145,29 @@ exports.testCompareEqual = function() {
         ["0.0.1", "0.0.0"],
         ["0.0.x", "0.0.0"],
         ["0.x", "0.0.0"],
-        ["x", "0.0.0"],
+        ["x", "0.0.0"]
     ];
 
-    for each (let versions in tests) {
-        assert.ok(semver.isGreaterOrEqual(versions[0], versions[1]),
-                versions[0] + " is greater or equal than " + versions[1]);
-        assert.ok(semver.isLowerOrEqual(versions[1], versions[0]),
-                versions[1] + " is lower or equal than " + versions[0]);
+    for each (let [versionA, versionB] in tests) {
+        assert.ok(semver.isGreaterOrEqual(versionA, versionB),
+                versionA + " is greater or equal than " + versionB);
+        assert.ok(semver.isLowerOrEqual(versionB, versionA),
+                versionB + " is lower or equal than " + versionB);
     }
     return;
+};
+
+exports.testIsEqual = function() {
+    var tests = [
+        ["0.0.1", "0.0.1"],
+        ["0.1.0", "0.1"],
+        ["0.1.0alpha1", "0.1alpha1"],
+        ["1beta2", "1.0.0beta2"]
+    ];
+    for each (let [versionA, versionB] in tests) {
+        assert.ok(semver.isEqual(versionA, versionB),
+                versionA + " is equal to " + versionB);
+    }
 };
 
 exports.testNegativeSatisfies = function() {
@@ -182,9 +195,9 @@ exports.testNegativeSatisfies = function() {
         ["1.0.0", "<1"],
         ["1.1.1", ">=1.2"]
     ];
-    for each (let versions in tests) {
-        assert.ok(!semver.satisfies(versions[0], versions[1]),
-                versions[0] + " must not satisfy range/version " + versions[1]);
+    for each (let [versionA, versionB] in tests) {
+        assert.ok(!semver.satisfies(versionA, versionB),
+                versionA + " must not satisfy range/version " + versionB);
     };
     return;
 };
@@ -195,6 +208,19 @@ exports.testSort = function() {
     assert.deepEqual(semver.sort(arr, 1), ["0.0.1", "0.1beta2", "0.1", "0.1.1", "1.2"]);
     // descending
     assert.deepEqual(semver.sort(arr, -1), ["1.2", "0.1.1", "0.1", "0.1beta2", "0.0.1"]);
+};
+
+exports.testIsCompatible = function() {
+    var tests = [
+        ["0.1", "0.9"],
+        ["0.0.1", "0.1.9alpha1"],
+        ["1.0", "1.5"]
+    ];
+    for each (let [versionA, versionB] in tests) {
+        assert.ok(semver.isCompatible(versionA, versionB),
+                versionA + " is compatible to " + versionB);
+    };
+    assert.isFalse(semver.isCompatible("1.0.5", "2.0"));
 };
 
 //start the test runner if we're called directly from command line
