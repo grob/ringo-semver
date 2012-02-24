@@ -10,7 +10,7 @@
         "email": "robert@nomatic.org"
     },
     "bugs": "http://github.com/grob/ringo-semver/issues",
-    "licences": [{
+    "licenses": [{
         "type": "Apache License Version 2.0",
         "url": "http://www.apache.org/licenses/"
     }],
