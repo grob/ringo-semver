@@ -1,5 +1,6 @@
 var assert = require("assert");
 var semver = require("../lib/ringo/semver");
+var system = require("system");
 
 exports.testParseVersion = function() {
     assert.deepEqual(semver.parseVersion("1"), [1, null, null, null]);
@@ -9,7 +10,6 @@ exports.testParseVersion = function() {
     assert.deepEqual(semver.parseVersion("1beta3"), [1, null, null, "beta3"]);
     assert.deepEqual(semver.parseVersion("1.1beta3"), [1, 1, null, "beta3"]);
     assert.deepEqual(semver.parseVersion("1.0.1beta3"), [1, 0, 1, "beta3"]);
-    return;
 };
 
 exports.testParseRange = function() {
@@ -97,7 +97,6 @@ exports.testSatisfies = function() {
         assert.ok(semver.satisfies(versionA, versionB),
                 versionA + " must satisfy " + versionB);
     }
-    return;
 };
 
 exports.testCompare = function() {
@@ -133,8 +132,7 @@ exports.testCompare = function() {
               versionB + " must be not greater than " + versionA);
       assert.ok(!semver.isLower(versionA, versionB),
               versionA + " must be not lower than " + versionB);
-    };
-    return;
+    }
 };
 
 exports.testCompareEqual = function() {
@@ -154,7 +152,6 @@ exports.testCompareEqual = function() {
         assert.ok(semver.isLowerOrEqual(versionB, versionA),
                 versionB + " is lower or equal than " + versionB);
     }
-    return;
 };
 
 exports.testIsEqual = function() {
@@ -198,8 +195,7 @@ exports.testNegativeSatisfies = function() {
     for each (let [versionA, versionB] in tests) {
         assert.ok(!semver.satisfies(versionA, versionB),
                 versionA + " must not satisfy range/version " + versionB);
-    };
-    return;
+    }
 };
 
 exports.testSort = function() {
@@ -219,7 +215,7 @@ exports.testIsCompatible = function() {
     for each (let [versionA, versionB] in tests) {
         assert.ok(semver.isCompatible(versionA, versionB),
                 versionA + " is compatible to " + versionB);
-    };
+    }
     assert.isFalse(semver.isCompatible("1.0.5", "2.0"));
 };
 
