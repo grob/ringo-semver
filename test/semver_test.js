@@ -1,8 +1,8 @@
-var assert = require("assert");
-var semver = require("../lib/ringo/semver");
-var system = require("system");
+const system = require("system");
+const assert = require("assert");
+const semver = require("../lib/semver");
 
-exports.testParseVersion = function() {
+exports.testParseVersion = () => {
     assert.deepEqual(semver.parseVersion("1"), [1, null, null, null]);
     assert.deepEqual(semver.parseVersion("1.0"), [1, 0, null, null]);
     assert.deepEqual(semver.parseVersion("1.x"), [1, "x", null, null]);
@@ -12,7 +12,7 @@ exports.testParseVersion = function() {
     assert.deepEqual(semver.parseVersion("1.0.1beta3"), [1, 0, 1, "beta3"]);
 };
 
-exports.testParseRange = function() {
+exports.testParseRange = () => {
     assert.deepEqual(semver.parseRange("1"), [null, "1", null, null]);
     assert.deepEqual(semver.parseRange("> 1"), [">", "1", null, null]);
     assert.deepEqual(semver.parseRange(">= 1"), [">=", "1", null, null]);
@@ -21,7 +21,7 @@ exports.testParseRange = function() {
     assert.deepEqual(semver.parseRange("1 - 2"), [null, "1", null, "2"]);
 };
 
-exports.testSanitizeRange = function() {
+exports.testSanitizeRange = () => {
     assert.deepEqual(semver.sanitizeRange("1"), [[">=", 100000000, null], ["<", 200000000, null]]);
     assert.deepEqual(semver.sanitizeRange("1.0"), [[">=", 100000000, null], ["<", 100010000, null]]);
     assert.deepEqual(semver.sanitizeRange("1.1"), [[">=", 100010000, null], ["<", 100020000, null]]);
@@ -48,8 +48,8 @@ exports.testSanitizeRange = function() {
     assert.deepEqual(semver.sanitizeRange(">1.1.1 <=2.1.1"), [[">", 100010001, null], ["<=", 200010001, null]]);
 };
 
-exports.testSatisfies = function() {
-    var tests = [
+exports.testSatisfies = () => {
+    const tests = [
         ["1.2.3", "1.0.0 - 2.0.0"],
         ["1.0.0", "1.0.0"],
         ["0.2.4", ">=x"],
@@ -93,14 +93,15 @@ exports.testSatisfies = function() {
         ["0.2.0beta2", "> 0.2.0alpha2"],
         ["0.2.0beta2", "> 0.2.0beta"]
     ];
-    for each (let [versionA, versionB] in tests) {
+    tests.forEach(test => {
+        const [versionA, versionB] = test;
         assert.ok(semver.satisfies(versionA, versionB),
                 versionA + " must satisfy " + versionB);
-    }
+    });
 };
 
-exports.testCompare = function() {
-    var tests = [
+exports.testCompare = () => {
+    const tests = [
         ["0.0.0", "0.0.0foo"],
         ["0.0.1foo", "0.0.0"],
         ["0.0.1foo", "0.0.0foo"],
@@ -123,20 +124,21 @@ exports.testCompare = function() {
         ["2.0.0", "v1.2.3"]
     ];
 
-    for each (let [versionA, versionB] in tests) {
-      assert.ok(semver.isGreater(versionA, versionB),
-              "isGreater(" + versionA + ", " + versionB + ") must return true");
-      assert.ok(semver.isLower(versionB, versionA),
-              versionB + " must be lower than " + versionA);
-      assert.ok(!semver.isGreater(versionB, versionA),
-              versionB + " must be not greater than " + versionA);
-      assert.ok(!semver.isLower(versionA, versionB),
-              versionA + " must be not lower than " + versionB);
-    }
+    tests.forEach(test => {
+        const [versionA, versionB] = test;
+        assert.ok(semver.isGreater(versionA, versionB),
+                "isGreater(" + versionA + ", " + versionB + ") must return true");
+        assert.ok(semver.isLower(versionB, versionA),
+                versionB + " must be lower than " + versionA);
+        assert.ok(!semver.isGreater(versionB, versionA),
+                versionB + " must be not greater than " + versionA);
+        assert.ok(!semver.isLower(versionA, versionB),
+                versionA + " must be not lower than " + versionB);
+    });
 };
 
-exports.testCompareEqual = function() {
-    var tests = [
+exports.testCompareEqual = () => {
+    const tests = [
         ["0.0.0", "0.0.0"],
         ["0.0.0", "0.0.0foo"],
         ["0.0.0goo", "0.0.0foo"],
@@ -146,29 +148,31 @@ exports.testCompareEqual = function() {
         ["x", "0.0.0"]
     ];
 
-    for each (let [versionA, versionB] in tests) {
+    tests.forEach(test => {
+        const [versionA, versionB] = test;
         assert.ok(semver.isGreaterOrEqual(versionA, versionB),
                 versionA + " is greater or equal than " + versionB);
         assert.ok(semver.isLowerOrEqual(versionB, versionA),
                 versionB + " is lower or equal than " + versionB);
-    }
+    });
 };
 
-exports.testIsEqual = function() {
-    var tests = [
+exports.testIsEqual = () => {
+    const tests = [
         ["0.0.1", "0.0.1"],
         ["0.1.0", "0.1"],
         ["0.1.0alpha1", "0.1alpha1"],
         ["1beta2", "1.0.0beta2"]
     ];
-    for each (let [versionA, versionB] in tests) {
+    tests.forEach(test => {
+        const [versionA, versionB] = test;
         assert.ok(semver.isEqual(versionA, versionB),
                 versionA + " is equal to " + versionB);
-    }
+    });
 };
 
-exports.testNegativeSatisfies = function() {
-    var tests = [
+exports.testNegativeSatisfies = () => {
+    const tests = [
         ["2.2.3", "1.0.0 - 2.0.0"],
         ["1.0.1", "1.0.0"],
         ["0.0.0", ">=1.0.0"],
@@ -192,34 +196,37 @@ exports.testNegativeSatisfies = function() {
         ["1.0.0", "<1"],
         ["1.1.1", ">=1.2"]
     ];
-    for each (let [versionA, versionB] in tests) {
+    tests.forEach(test => {
+        const [versionA, versionB] = test;
         assert.ok(!semver.satisfies(versionA, versionB),
                 versionA + " must not satisfy range/version " + versionB);
-    }
+    });
 };
 
-exports.testSort = function() {
-    var arr = ["0.1.1", "0.1", "0.1beta2", "1.2", "0.0.1"];
+exports.testSort = () => {
+    const arr = ["0.1.1", "0.1", "0.1beta2", "1.2", "0.0.1"];
     // ascending
     assert.deepEqual(semver.sort(arr, 1), ["0.0.1", "0.1beta2", "0.1", "0.1.1", "1.2"]);
     // descending
     assert.deepEqual(semver.sort(arr, -1), ["1.2", "0.1.1", "0.1", "0.1beta2", "0.0.1"]);
 };
 
-exports.testIsCompatible = function() {
-    var tests = [
+exports.testIsCompatible = () => {
+    const tests = [
         ["0.1", "0.9"],
         ["0.0.1", "0.1.9alpha1"],
         ["1.0", "1.5"]
     ];
-    for each (let [versionA, versionB] in tests) {
+    tests.forEach(test => {
+        const [versionA, versionB] = test;
         assert.ok(semver.isCompatible(versionA, versionB),
                 versionA + " is compatible to " + versionB);
-    }
+    });
     assert.isFalse(semver.isCompatible("1.0.5", "2.0"));
 };
 
-//start the test runner if we're called directly from command line
+
 if (require.main == module.id) {
-    system.exit(require('test').run(exports));
+    system.exit(require("test").run.apply(null,
+            [exports].concat(system.args.slice(1))));
 }
